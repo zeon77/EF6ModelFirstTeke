@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TekeDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TekeDbModelStoreContainer">
+    <EntitySet Name="Egyesuletek" EntityType="TekeDbModel.Store.Egyesuletek" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Versenyzok" EntityType="TekeDbModel.Store.Versenyzok" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Eredmenyek" EntityType="TekeDbModel.Store.Eredmenyek" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="EgyesuletVersenyzo" Association="TekeDbModel.Store.EgyesuletVersenyzo">
+      <End Role="Egyesulet" EntitySet="Egyesuletek" />
+      <End Role="Versenyzo" EntitySet="Versenyzok" />
+    </AssociationSet>
+    <AssociationSet Name="VersenyzoEredmeny" Association="TekeDbModel.Store.VersenyzoEredmeny">
+      <End Role="Versenyzo" EntitySet="Versenyzok" />
+      <End Role="Eredmeny" EntitySet="Eredmenyek" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Egyesuletek">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nev" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Versenyzok">
+    <Key>
+      <PropertyRef Name="Rajtszam" />
+    </Key>
+    <Property Name="Rajtszam" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nev" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Korcsop" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EgyesuletId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Eredmenyek">
+    <Key>
+      <PropertyRef Name="Sorsz" />
+    </Key>
+    <Property Name="Sorsz" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Teli" Type="int" Nullable="false" />
+    <Property Name="Tarolas" Type="int" Nullable="false" />
+    <Property Name="Ures" Type="int" Nullable="false" />
+    <Property Name="VersenyzoRajtszam" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="EgyesuletVersenyzo">
+    <End Role="Egyesulet" Type="TekeDbModel.Store.Egyesuletek" Multiplicity="1" />
+    <End Role="Versenyzo" Type="TekeDbModel.Store.Versenyzok" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Egyesulet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Versenyzo">
+        <PropertyRef Name="EgyesuletId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VersenyzoEredmeny">
+    <End Role="Versenyzo" Type="TekeDbModel.Store.Versenyzok" Multiplicity="1" />
+    <End Role="Eredmeny" Type="TekeDbModel.Store.Eredmenyek" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Versenyzo">
+        <PropertyRef Name="Rajtszam" />
+      </Principal>
+      <Dependent Role="Eredmeny">
+        <PropertyRef Name="VersenyzoRajtszam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TekeDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="TekeDbModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Egyesuletek" EntityType="TekeDbModel.Egyesulet" />
+          <EntitySet Name="Versenyzok" EntityType="TekeDbModel.Versenyzo" />
+          <EntitySet Name="Eredmenyek" EntityType="TekeDbModel.Eredmeny" />
+          <AssociationSet Name="EgyesuletVersenyzo" Association="TekeDbModel.EgyesuletVersenyzo">
+            <End Role="Egyesulet" EntitySet="Egyesuletek" />
+            <End Role="Versenyzo" EntitySet="Versenyzok" />
+          </AssociationSet>
+          <AssociationSet Name="VersenyzoEredmeny" Association="TekeDbModel.VersenyzoEredmeny">
+            <End Role="Versenyzo" EntitySet="Versenyzok" />
+            <End Role="Eredmeny" EntitySet="Eredmenyek" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Egyesulet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nev" Type="String" Nullable="false" />
+          <NavigationProperty Name="Versenyzok" Relationship="TekeDbModel.EgyesuletVersenyzo" FromRole="Egyesulet" ToRole="Versenyzo" />
+        </EntityType>
+        <EntityType Name="Versenyzo">
+          <Key>
+            <PropertyRef Name="Rajtszam" />
+          </Key>
+          <Property Name="Rajtszam" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nev" Type="String" Nullable="false" />
+          <Property Name="Korcsop" Type="String" Nullable="false" />
+          <NavigationProperty Name="Egyesulet" Relationship="TekeDbModel.EgyesuletVersenyzo" FromRole="Versenyzo" ToRole="Egyesulet" />
+          <Property Name="EgyesuletId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Eredmenyek" Relationship="TekeDbModel.VersenyzoEredmeny" FromRole="Versenyzo" ToRole="Eredmeny" />
+        </EntityType>
+        <EntityType Name="Eredmeny">
+          <Key>
+            <PropertyRef Name="Sorsz" />
+          </Key>
+          <Property Name="Sorsz" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Teli" Type="Int32" Nullable="false" />
+          <Property Name="Tarolas" Type="Int32" Nullable="false" />
+          <Property Name="Ures" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Versenyzo" Relationship="TekeDbModel.VersenyzoEredmeny" FromRole="Eredmeny" ToRole="Versenyzo" />
+          <Property Name="VersenyzoRajtszam" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="EgyesuletVersenyzo">
+          <End Type="TekeDbModel.Egyesulet" Role="Egyesulet" Multiplicity="1" />
+          <End Type="TekeDbModel.Versenyzo" Role="Versenyzo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Egyesulet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Versenyzo">
+              <PropertyRef Name="EgyesuletId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VersenyzoEredmeny">
+          <End Type="TekeDbModel.Versenyzo" Role="Versenyzo" Multiplicity="1" />
+          <End Type="TekeDbModel.Eredmeny" Role="Eredmeny" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Versenyzo">
+              <PropertyRef Name="Rajtszam" />
+            </Principal>
+            <Dependent Role="Eredmeny">
+              <PropertyRef Name="VersenyzoRajtszam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TekeDbModelStoreContainer" CdmEntityContainer="TekeDbModelContainer">
+    <EntitySetMapping Name="Egyesuletek">
+      <EntityTypeMapping TypeName="IsTypeOf(TekeDbModel.Egyesulet)">
+        <MappingFragment StoreEntitySet="Egyesuletek">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nev" ColumnName="Nev" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Versenyzok">
+      <EntityTypeMapping TypeName="IsTypeOf(TekeDbModel.Versenyzo)">
+        <MappingFragment StoreEntitySet="Versenyzok">
+          <ScalarProperty Name="Rajtszam" ColumnName="Rajtszam" />
+          <ScalarProperty Name="Nev" ColumnName="Nev" />
+          <ScalarProperty Name="Korcsop" ColumnName="Korcsop" />
+          <ScalarProperty Name="EgyesuletId" ColumnName="EgyesuletId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Eredmenyek">
+      <EntityTypeMapping TypeName="IsTypeOf(TekeDbModel.Eredmeny)">
+        <MappingFragment StoreEntitySet="Eredmenyek">
+          <ScalarProperty Name="Sorsz" ColumnName="Sorsz" />
+          <ScalarProperty Name="Teli" ColumnName="Teli" />
+          <ScalarProperty Name="Tarolas" ColumnName="Tarolas" />
+          <ScalarProperty Name="Ures" ColumnName="Ures" />
+          <ScalarProperty Name="VersenyzoRajtszam" ColumnName="VersenyzoRajtszam" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
