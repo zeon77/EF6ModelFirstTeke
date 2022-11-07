@@ -64,6 +64,13 @@ namespace EF6ModelFirstTeke
                     .OrderByDescending(x => x.Átlag).ToList()
                     .ForEach(x => Console.WriteLine($"{x.Név}, {x.Átlag}"));
 
+                /* 6. feladat: Navigation Property kihasználásával!
+                 * Listázza ki a legtöbb versenyzőt adó egyesület nevét!
+                 */
+                var egy = db.Egyesuletek.OrderByDescending(e => e.Versenyzok.Count()).FirstOrDefault();
+                Console.WriteLine($"\n6. feladat: A legtöbb versenyzővel rendelkező egyesület: {egy.Nev}");
+
+
             }
             Console.ReadKey();
         }
