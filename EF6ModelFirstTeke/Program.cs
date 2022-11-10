@@ -68,8 +68,7 @@ namespace EF6ModelFirstTeke
                  * Listázza ki a legtöbb versenyzőt adó egyesület nevét!
                  */
                 var egy = db.Egyesuletek.OrderByDescending(e => e.Versenyzok.Count()).FirstOrDefault();
-                Console.WriteLine($"\n6. feladat: A legtöbb versenyzővel rendelkező egyesület: {egy.Nev}");
-
+                //Console.WriteLine($"\n6. feladat: A legtöbb versenyzővel rendelkező egyesület: {egy.Nev}");
 
             }
             Console.ReadKey();

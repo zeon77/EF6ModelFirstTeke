@@ -1,0 +1,2 @@
+﻿CREATE DATABASE TekeDb
+COLLATE Hungarian_CI_AS;

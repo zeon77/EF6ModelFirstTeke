@@ -1,5 +1,5 @@
-INSERT INTO Egyesuleek(Id, Nev) VALUES
 SET IDENTITY_INSERT Egyesuletek ON;
+INSERT INTO Egyesuletek(Id, Nev) VALUES
 (1, 'Ajka Kristály SE'), 
 (2, 'Arborétum Herény SE'), 
 (3, 'Bábolna SE'), 
